@@ -20,14 +20,15 @@ const secretKey = "thisismysecretkey";
 //2. The server checks the credentials are correct and sends back a token.(The server creates an access token for the user and sends it back to the client);
 
 router.post('/login', (req, res) => {
-    const { username } = req.body;
+    const { username, password } = req.body;
 
-    if(mockUser.username !== username){
+    if(mockUser.username !== username || mockUser.password !== password){
         res.status(401).send("Unauthorized");
-    }
-    const token = jwt.sign(username, secretKey);
+    };
+    const payload = { username, password }
+    const token = jwt.sign(payload, secretKey);
     // console.log(token);
-    res.json({tokenKey: token});
+    res.json({ tokenKey: token });
 });
 
 
