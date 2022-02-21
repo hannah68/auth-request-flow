@@ -23,12 +23,12 @@ router.post('/login', (req, res) => {
     const { username, password } = req.body;
 
     if(mockUser.username !== username || mockUser.password !== password){
-        res.status(401).send("Unauthorized");
+        return res.status(401).send("Unauthorized");
     };
     const payload = { username, password }
     const token = jwt.sign(payload, secretKey);
     // console.log(token);
-    res.json({ tokenKey: token });
+    return res.json({ tokenKey: token });
 });
 
 
@@ -38,10 +38,10 @@ router.get('/profile', (req, res) => {
     const { authorization } = req.headers
     try{
         jwt.verify(authorization, secretKey);
-        res.json({data: mockUser});
+        return res.json({data: mockUser});
     }
     catch(err){
-        res.send(err.message);
+        return res.send(err.message);
     }
 });
 
